@@ -2,6 +2,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { composePlugins, withNx } = require('@nx/next');
+const { withSentryConfig } = require('@sentry/nextjs');
 
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
@@ -14,9 +15,26 @@ const nextConfig = {
   },
 };
 
+/**
+ * @type {Partial<import('@sentry/nextjs').SentryWebpackPluginOptions>}
+ **/
+const sentryWebpackPluginOptions = {
+  dryRun: true,
+  silent: true,
+};
+
+/**
+ * @type {import('@sentry/nextjs/types/config/types').UserSentryOptions}
+ **/
+const sentryConfig = {
+  hideSourceMaps: true,
+};
+
 const plugins = [
   // Add more Next.js plugins to this list if needed.
   withNx,
 ];
 
-module.exports = composePlugins(...plugins)(nextConfig);
+module.exports = composePlugins(...plugins)(
+  withSentryConfig(nextConfig, sentryWebpackPluginOptions, sentryConfig)
+);
