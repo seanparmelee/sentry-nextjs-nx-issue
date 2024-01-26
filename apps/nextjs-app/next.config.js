@@ -33,8 +33,7 @@ const sentryConfig = {
 const plugins = [
   // Add more Next.js plugins to this list if needed.
   withNx,
+  (config) => withSentryConfig(config, sentryWebpackPluginOptions, sentryConfig),
 ];
 
-module.exports = composePlugins(...plugins)(
-  withSentryConfig(nextConfig, sentryWebpackPluginOptions, sentryConfig)
-);
+module.exports = composePlugins(...plugins)(nextConfig);
